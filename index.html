@@ -18,15 +18,17 @@
         </div>
     </div>
     <audio id="audio-player" controls></audio>
-    <script src="script.js">// Array to store the tracks
+
+    <script>
+        // Array to store the tracks
         let tracks = [];
-        
+
         // Check if tracks are saved in localStorage
         if (localStorage.getItem("tracks")) {
             tracks = JSON.parse(localStorage.getItem("tracks"));
             renderTracks();
         }
-        
+
         // Function to render the tracks dynamically in the grid
         function renderTracks() {
             const musicGrid = document.getElementById("music-grid");
@@ -34,18 +36,18 @@
             tracks.forEach((track, index) => {
                 const trackElement = document.createElement("div");
                 trackElement.classList.add("track");
-        
+
                 // Create the track item with a play button and title
                 const trackTitle = document.createElement("p");
                 trackTitle.textContent = track.title;
-        
+
                 const playButton = document.createElement("button");
                 playButton.textContent = "Play";
                 playButton.onclick = () => playTrack(index);
-        
+
                 trackElement.appendChild(trackTitle);
                 trackElement.appendChild(playButton);
-        
+
                 // If there is a track file (not a URL), display it
                 if (track.file) {
                     const trackAudio = document.createElement("audio");
@@ -59,35 +61,35 @@
                     trackLink.textContent = "Listen online";
                     trackElement.appendChild(trackLink);
                 }
-        
+
                 musicGrid.appendChild(trackElement);
             });
         }
-        
+
         // Function to add a track
         function addTrack() {
             const title = document.getElementById("track-title").value;
             const url = document.getElementById("track-url").value;
             const file = document.getElementById("track-file").files[0];
-        
+
             if (title && (url || file)) {
                 const newTrack = {
                     title: title,
                     url: url || null,
                     file: file ? URL.createObjectURL(file) : null
                 };
-        
+
                 tracks.push(newTrack);
                 localStorage.setItem("tracks", JSON.stringify(tracks));  // Save tracks to localStorage
                 renderTracks();  // Re-render the tracks
-        
+
                 // Clear the input fields
                 document.getElementById("track-title").value = "";
                 document.getElementById("track-url").value = "";
                 document.getElementById("track-file").value = "";
             }
         }
-        
+
         // Function to play a track when clicked
         function playTrack(index) {
             const track = tracks[index];
@@ -95,6 +97,6 @@
             audioPlayer.src = track.file || track.url;
             audioPlayer.play();
         }
-        </script>
+    </script>
 </body>
 </html>
