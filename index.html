@@ -13,7 +13,7 @@
             <input type="text" id="track-title" placeholder="Track Title">
             <input type="text" id="track-url" placeholder="Track URL">
             <input type="file" id="track-file" accept="audio/*">
-            <button id="add-track-button">Add Track</button>
+            <button onclick="addTrack()">Add Track</button>
         </div>
     </div>
     <audio id="audio-player" controls></audio>
@@ -141,9 +141,6 @@
             audioPlayer.src = track.file || track.url;
             audioPlayer.play();
         }
-
-        // Attach the addTrack function to the button click event
-        document.getElementById("add-track-button").onclick = addTrack;
     </script>
 </body>
 </html>
