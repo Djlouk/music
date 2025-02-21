@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Portfolio</title>
-    
 </head>
 <body>
     <div class="container">
@@ -14,20 +13,17 @@
             <input type="text" id="track-title" placeholder="Track Title">
             <input type="text" id="track-url" placeholder="Track URL">
             <input type="file" id="track-file" accept="audio/*">
-            <button onclick="addTrack()">Add Track</button>
+            <button id="add-track-button">Add Track</button>
         </div>
     </div>
     <audio id="audio-player" controls></audio>
 
     <!-- Firebase SDK -->
     <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
-
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
 
     <script type="module">
-        
-       
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAHo95URMAt-qUge5aMC0fFZDlGNYPocZw",
@@ -145,6 +141,9 @@
             audioPlayer.src = track.file || track.url;
             audioPlayer.play();
         }
+
+        // Attach the addTrack function to the button click event
+        document.getElementById("add-track-button").onclick = addTrack;
     </script>
 </body>
 </html>
