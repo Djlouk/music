@@ -13,17 +13,17 @@
             <input type="text" id="track-title" placeholder="Track Title">
             <input type="text" id="track-url" placeholder="Track URL">
             <input type="file" id="track-file" accept="audio/*">
-            <button onclick="addTrack()">Add Track</button>
+            <button id="add-track-btn">Add Track</button>
         </div>
     </div>
     <audio id="audio-player" controls></audio>
 
     <!-- Firebase SDK -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
-
     <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+        import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js';
+
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAHo95URMAt-qUge5aMC0fFZDlGNYPocZw",
@@ -36,10 +36,6 @@
         };
 
         // Initialize Firebase
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
-        import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
-        import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js';
-
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
         const storage = getStorage(app);
@@ -61,7 +57,6 @@
                 const trackElement = document.createElement("div");
                 trackElement.classList.add("track");
 
-                // Create the track item with a play button and title
                 const trackTitle = document.createElement("p");
                 trackTitle.textContent = track.title;
 
@@ -72,7 +67,6 @@
                 trackElement.appendChild(trackTitle);
                 trackElement.appendChild(playButton);
 
-                // If there is a track file (not a URL), display it
                 if (track.file) {
                     const trackAudio = document.createElement("audio");
                     trackAudio.src = track.file;
@@ -104,13 +98,12 @@
                             const newTrack = {
                                 title: title,
                                 url: null,
-                                file: downloadURL  // Use the Firebase Storage URL
+                                file: downloadURL
                             };
                             tracks.push(newTrack);
                             localStorage.setItem("tracks", JSON.stringify(tracks));
                             renderTracks();
 
-                            // Clear the input fields
                             document.getElementById("track-title").value = "";
                             document.getElementById("track-url").value = "";
                             document.getElementById("track-file").value = "";
@@ -126,7 +119,6 @@
                     localStorage.setItem("tracks", JSON.stringify(tracks));
                     renderTracks();
 
-                    // Clear the input fields
                     document.getElementById("track-title").value = "";
                     document.getElementById("track-url").value = "";
                     document.getElementById("track-file").value = "";
@@ -141,6 +133,10 @@
             audioPlayer.src = track.file || track.url;
             audioPlayer.play();
         }
+
+        // Fix ReferenceError by using addEventListener
+        document.getElementById("add-track-btn").addEventListener("click", addTrack);
+
     </script>
 </body>
 </html>
